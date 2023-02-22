@@ -2,6 +2,7 @@ package programming;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -84,10 +85,11 @@ public class FP04CustomClass {
 		System.out.println(courses.stream().anyMatch(reviewScoreLessThan90Predicate));
 		
 		System.out.println(courses.stream().anyMatch(reviewScoreGreaterThan95Predicate));
-		
+
+
 		Comparator<Course> comparingByNoOfStudentsIncreasing 
 					= Comparator.comparingInt(Course::getNoOfStudents);
-		
+		//comparaison ascendante
 		System.out.println(
 				courses.stream()
 				.sorted(comparingByNoOfStudentsIncreasing)
@@ -96,7 +98,7 @@ public class FP04CustomClass {
 
 		Comparator<Course> comparingByNoOfStudentsDecreasing 
 					= Comparator.comparingInt(Course::getNoOfStudents).reversed();
-		
+		//comparaison descendante
 		System.out.println(
 				courses.stream()
 				.sorted(comparingByNoOfStudentsDecreasing)
@@ -244,7 +246,12 @@ public class FP04CustomClass {
 				.collect(Collectors.groupingBy(Course::getCategory, 
 						Collectors.mapping(Course::getName, Collectors.toList()))));
 		//{Cloud=[AWS, Azure, Docker, Kubernetes], FullStack=[FullStack], Microservices=[API, Microservices], Framework=[Spring, Spring Boot]}
-		
+
+
+		System.out.println("to Map : "+
+				courses.stream()
+						.collect(Collectors.toMap(Course::getName, Course::getReviewScore)));
+//		to Map : {Azure=99, Docker=92, Spring Boot=95, API=97, Spring=98, FullStack=91, AWS=92, Microservices=96, Kubernetes=91}
 		
 		Predicate<Course> reviewScoreGreaterThan95Predicate2 
 						= createPredicateWithCutoffReviewScore(95);
